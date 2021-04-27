@@ -89,11 +89,18 @@ class FormView extends Component {
           <label>
             Category
             <select name="category" onChange={this.handleChange}>
-              {Object.keys(this.state.categories).map(id => {
+              {/*Object.keys(this.state.categories).map(id => {
                   return (
                     <option key={id} value={id}>{this.state.categories[id]}</option>
                   )
-                })}
+              })*/}
+              {
+                Object.keys(this.state.categories).map(catIndex => {
+                  return(
+                    <option key={this.state.categories[catIndex]['id']} value={this.state.categories[catIndex]['id']}>{this.state.categories[catIndex]['type']}</option>
+                  )
+                })
+              }
             </select>
           </label>
           <input type="submit" className="button" value="Submit" />

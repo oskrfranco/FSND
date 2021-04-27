@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 import '../stylesheets/QuizView.css';
 
-const questionsPerPlay = 5; 
+var questionsPerPlay = -1; 
 
 class QuizView extends Component {
   constructor(props){
@@ -61,6 +61,8 @@ class QuizView extends Component {
       },
       crossDomain: true,
       success: (result) => {
+        if(questionsPerPlay == -1)
+          questionsPerPlay = result.total_questions 
         this.setState({
           showAnswer: false,
           previousQuestions: previousQuestions,
@@ -105,17 +107,21 @@ class QuizView extends Component {
               <div className="choose-header">Choose Category</div>
               <div className="category-holder">
                   <div className="play-category" onClick={this.selectCategory}>ALL</div>
-                  {Object.keys(this.state.categories).map(id => {
-                  return (
-                    <div
-                      key={id}
-                      value={id}
-                      className="play-category"
-                      onClick={() => this.selectCategory({type:this.state.categories[id], id})}>
-                      {this.state.categories[id]}
-                    </div>
-                  )
-                })}
+                  {
+                    Object.keys(this.state.categories).map(catIndex => {
+                      var category_id = this.state.categories[catIndex]['id']
+                      var category_type = this.state.categories[catIndex]['type']
+                      return (
+                        <div
+                          key={this.state.categories[catIndex]['id']}
+                          value={this.state.categories[catIndex]['id']}
+                          className="play-category"
+                          onClick={() => this.selectCategory({type:this.state.categories[catIndex]['type'], id:this.state.categories[catIndex]['id']})}>
+                          {this.state.categories[catIndex]['type']}
+                        </div>
+                      )
+                    })
+                  }
               </div>
           </div>
       )
